@@ -1,0 +1,15 @@
+<form>
+    <div class="row">
+        <div class="col col-md-6 col-md-offset-3">
+            <h2>Inscription au service Mail :</h2>
+
+            <label for="firstName" class="sr-only"> First Name </label>
+            <input type="text" id="firstName" placeholder="First Name" name="firstName" class="form-control" ng-model="usermail.firstName" value="" required>
+            <label for="lastName" class="sr-only"> Last Name </label>
+            <input type="text" id="lastName" placeholder="Last Name" name="lastName" value="" class="form-control"  ng-model="usermail.lastName" required>
+
+            <input type="button" value="S'inscrire" class="btn btn-md btn-primary" id="inscription" ng-click="saveU(usermail)">
+
+        </div>
+    </div>
+</form>
