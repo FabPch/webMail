@@ -29,10 +29,40 @@
 <body>
 <div ng-app="webmail" ng-controller="controlMail">
     <div class="container">
-        <a href="#recep">Reception <span class="badge" ng-bind="mails.length"></span></a>
-        <a href="#add">Inscription</a>
-        <a href="#write">Send</a>
+        <div ng-if="connected">
+            <div class="row">
+            <a href="#recep">Reception <span class="badge" ng-bind="mails.length"></span></a>
+                <a href="#sent">Sent</a>
+                <a href="#add">Inscription</a>
+            <a href="#write">Send</a>
+            <button class='btn btn-danger' ng-click='userlogout()'>Log Out!</button>
+            </div>
+            <div class="row">
+                <ul ng-repeat="u in usermails">
+                    <li>{{}}</li>
+                </ul>
+            </div>
         <div ng-view></div>
+        </div>
+
+        <div ng-if="!connected">
+            <div class="row">
+                <div class="col col-md-6 col-md-offset-3">
+                    <div class='panel panel-success'>
+                        <div class='panel-heading'>Log In !</div>
+                        <div class='panel-body'>
+                            <form>
+                                <label for="title" class="sr-only"> Email </label><br>
+                                <input type="text" id="title" class="form-control" placeholder="Title" name="title" ng-model="userToVer.firstName" value="" required>
+                                <label for="content" class="sr-only"> Password </label><br>
+                                <input type="text" id="content" class="form-control" placeholder="Content" name="content" value="" ng-model="userToVer.lastName" required>
+                            </form>
+                        </div>
+                    </div>
+                    <button class='btn btn-success' ng-click='userlog(userToVer)'>Send !</button>
+                </div>
+            </div>
+        </div>
 
 
     </div>

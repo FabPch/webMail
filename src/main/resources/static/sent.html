@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col col-md-6 col-md-offset-3">
+        <label> Filter : <input ng-model="fav.$"></label>
+        <label> Filter by Title : <input ng-model="fav.title"></label>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Title <span class="glyphicon glyphicon-sort-by-alphabet" ng-click="order('title')"></span> </th>
+                <th>Content <span class="glyphicon glyphicon-sort-by-alphabet" ng-click="order('lastName')"></span></th>
+            </tr>
+
+            <tr ng-repeat="m in mails | filter : fav | orderBy: propMail"> <!--ng-mouseover="display(x.id)" ng-mouseout="hide()"-->
+                <td ng-click="display(m.id)">{{m.title}}</td>
+                <td ng-click="display(m.id)">{{m.content}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col col-md-6 col-md-offset-3">
+            <cartemail></cartemail>
+        </div>
+    </div>
+</div>

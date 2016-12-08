@@ -1,1 +1,1 @@
-select * from usermail
+ALTER TABLE usermail ADD COLUMN connected BOOLEAN;

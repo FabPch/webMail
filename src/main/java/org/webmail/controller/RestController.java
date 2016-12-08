@@ -1,12 +1,14 @@
 package org.webmail.controller;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.webmail.model.Mail;
 import org.webmail.model.UserMail;
 import org.webmail.repository.MailRepository;
 import org.webmail.repository.UserRepository;
+import org.webmail.service.MailService;
 
 import java.util.List;
 
@@ -17,22 +19,51 @@ import java.util.List;
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
 
+    private boolean connected;
+
     @Autowired
-    private MailRepository mailRepository;
+    private MailService mailService;
 
     @Autowired
     private UserRepository userRepository;
 
     @CrossOrigin
-    @GetMapping
-    public Iterable<Mail> getAll() {
-        return mailRepository.findAll();
+    @PostMapping("log")
+    public Integer log(@RequestBody UserMail userMail) {
+        connected = false;
+        Integer id = -1;
+        if ((id = userRepository.getByLog(userMail.getFirstName(), userMail.getLastName())) != -1) {
+            connected = true;
+            System.out.println("connecté");
+            System.out.println(id);
+            return id;
+        } else {
+            System.out.println("Non connecté");
+            return id;
+        }
+    }
+
+    @CrossOrigin
+    @GetMapping("log/{idUser}")
+    public Iterable<Mail> getAll(@PathVariable Integer idUser) {
+        System.out.println("demande getAll");
+        if (idUser == -1) {
+            connected = false;
+        }
+        System.out.println(connected);
+        UserMail userMail = new UserMail();
+        if (connected) {
+            userMail = userRepository.findOne(idUser);
+            return userMail.getRecMails();
+        } else {
+            return null;
+        }
     }
 
     @CrossOrigin
     @GetMapping("{id}")
     public Mail getMail(@PathVariable Integer id) {
-        return mailRepository.findOne(id);
+        return mailService.findOne(id);
     }
 
     @CrossOrigin
@@ -40,26 +71,28 @@ public class RestController {
     public void addMail(@PathVariable Integer id, @RequestBody Mail mail) {
         UserMail userMail = userRepository.findOne(id);
         mail.setUserMail(userMail);
-        mailRepository.save(mail);
+        System.out.println(mail.getContent());
+        System.out.println(mail.getUserMails());
+        mailService.save(mail);
     }
 
     @CrossOrigin
     @PutMapping("{id}")
     public void updateMail(@PathVariable Integer id, @RequestParam String title, String content, String attached) {
 
-        Mail mail = mailRepository.findOne(id);
+        Mail mail = mailService.findOne(id);
         mail.setTitle(title);
         mail.setContent(content);
         byte[] bytes = Base64.decodeBase64(attached);
         mail.setAttached(bytes);
 
-        mailRepository.save(mail);
+        mailService.save(mail);
     }
 
     @CrossOrigin
     @DeleteMapping("{id}")
     public void deleteMail(@PathVariable Integer id) {
-        mailRepository.delete(id);
+        mailService.delete(id);
     }
 
 

@@ -23,9 +23,16 @@ public class UserMail {
     @Column(name = "first_name")
     private String firstName;
 
+    @Column
+    private boolean connected;
+
     @ManyToMany(mappedBy = "userMail")
     @JsonIgnore
     private Set<Mail> mails;
+
+    @OneToMany(mappedBy = "userMails")
+    @JsonIgnore
+    private Set<Mail> recMails;
 
     //Getters and Setters
 
@@ -59,5 +66,21 @@ public class UserMail {
 
     public void setMails(Set<Mail> mails) {
         this.mails = mails;
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
+
+        public Set<Mail> getRecMails() {
+        return recMails;
+    }
+
+    public void setRecMails(Set<Mail> recMails) {
+        this.recMails = recMails;
     }
 }

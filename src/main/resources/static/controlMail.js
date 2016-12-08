@@ -3,37 +3,6 @@
  */
 var app = angular.module("webmail", ["ngRoute"]);
 
-// var xhr = new XMLHttpRequest();
-
-// //On définit le controller
-// app.controller("controlMail", function ($scope, $http) {
-//
-//     init($scope, $http);
-//
-//     $scope.remove = function(id) {
-//         deleteMail(id, $http, $scope);
-//     };
-//
-//     $scope.save = function(mail) {
-//         $scope.mail = mail;
-//         saveMail($http, $scope);
-//     }
-//
-//     $scope.saveU = function(user) {
-//         $scope.user = user;
-//         saveUser($http, $scope);
-//     }
-//
-//     $scope.display = function(id) {
-//         getMail(id, $http, $scope);
-//     };
-//
-//     $scope.order = function(prop) {
-//         $scope.propMail = prop;
-//     }
-//
-// })
-
 //Routes
 app.config(function ($routeProvider) {
 
@@ -48,8 +17,8 @@ app.config(function ($routeProvider) {
         .when('/write', {
             templateUrl : 'writeMail.html'
         })
-        .when('/part4', {
-            templateUrl : 'partials/part4.html'
+        .when('/sent', {
+            templateUrl : 'sent.html'
         });
 });
 
@@ -76,12 +45,17 @@ app.directive("cartemail", function() {
     //Init
 var init = function(scope, http) {
 
-    var url = 'http://172.28.11.18:8080/mail/';
+    var url = 'http://172.28.11.18:8080/mail/log/';
+    if (scope.connected)
+        url += scope.usermail.id;
+    else
+        url += -1;
 
     http.get(url).then(function(resp) {
         scope.mails = resp.data;
-        scope.usermail = {};
-        console.log(resp.data);
+        if (!scope.connected)
+            scope.usermail = {};
+        console.log(scope.connected);
     })
 }
     //Remove
@@ -97,7 +71,7 @@ var deleteMail = function (id, http, scope) {
     //Save Mail
 var saveMail = function (http, scope) {
 
-    var url = 'http://172.28.11.18:8080/mail/';
+    var url = 'http://172.28.11.18:8080/mail/' + scope.usermail.id;
 
     console.log(scope.mailToSave);
 
@@ -128,33 +102,62 @@ var getMail = function (id, http, scope) {
     http.get(url).then(function(resp) {
         scope.mail = resp.data;
         scope.showok = true;
-        console.log('ici');
-        console.log(scope.mail);
+    })
+}
+
+    //Log In
+var userVerify = function (http, scope) {
+
+    var url = 'http://172.28.11.18:8080/mail/log';
+    console.log('chemin fonction userVerify :')
+
+    http.post(url, scope.usermail).then(function(resp) {
+        console.log('chemin fonction requete :')
+        // console.log(scope.usermail.id);
+        if ((scope.usermail.id = resp.data) != -1)
+            scope.connected = true;
+        // console.log(scope.usermail.id);
+        init(scope, http);
     })
 }
 
 //On définit le controller
 app.controller("controlMail", function ($scope, $http) {
 
+    if ($scope.connected == undefined) {
+        $scope.connected = false;
+        console.log($scope.connected);
+    }
     init($scope, $http);
 
     $scope.remove = function(id) {
         deleteMail(id, $http, $scope);
     };
 
-    $scope.send = function(mail) {
+    $scope.send = function(mail, rec) {
         $scope.mailToSave = mail;
+        console.log(rec);
+        $scope.mailToSave.userMails = [rec];
+        console.log($scope.mailToSave.userMails);
         saveMail($http, $scope);
     }
 
     $scope.saveU = function(usermail) {
-        console.log('coucou');
-        console.log('test 1 add :');
-        console.log(usermail);
         $scope.usermail = usermail;
-        // console.log(('test 2 add :'))
-        // console.log($scope.usermailToAdd);
         saveUser($http, $scope);
+    }
+
+    $scope.userlog = function(usermail) {
+        $scope.usermail = usermail;
+        console.log('chemin début :')
+        console.log(usermail);
+        userVerify($http, $scope);
+
+    }
+
+    $scope.userlogout = function () {
+        $scope.connected = false;
+        init($scope, $http);
     }
 
     $scope.display = function(id) {

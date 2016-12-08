@@ -1,9 +1,9 @@
 <div class='panel panel-success'>
-    <div class='panel-heading'>Super Template</div>
+    <div class='panel-heading'>Write</div>
         <div class='panel-body'>
             <form>
                 <label for="recipient" class="sr-only"> Recipients </label>
-                <input type="text" id="recipient" class="form-control" placeholder="Recipient" name="recipient" ng-model="mailToSend.usermails" value="" required>
+                <input type="text" id="recipient" class="form-control" placeholder="Recipient" name="recipient" ng-model="rec.id" value="" required>
                 <label for="title" class="sr-only"> Title </label><br>
                 <input type="text" id="title" class="form-control" placeholder="Title" name="title" ng-model="mailToSend.title" value="" required>
                 <label for="content" class="sr-only"> Last Name </label><br>
@@ -11,4 +11,4 @@
             </form>
         </div>
     </div>
-<button class='btn btn-success' ng-click='send(mailToSend)'>Send !</button>
+<button class='btn btn-success' ng-click='send(mailToSend, rec)'>Send !</button>
