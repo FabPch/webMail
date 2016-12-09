@@ -1,5 +1,6 @@
 package org.webmail.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Set;
  * Created by formation on 06/12/2016.
  */
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table
 public class Mail {
 
@@ -28,7 +30,7 @@ public class Mail {
 
     @ManyToOne
     @JoinColumn(name = "usermail_id")
-    private UserMail userMail;
+    private UserMail writer;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="mailrec",
@@ -37,7 +39,7 @@ public class Mail {
             inverseJoinColumns=
             @JoinColumn(name="usermail_id", referencedColumnName="id")
     )
-    private Set<UserMail> userMails;
+    private Set<UserMail> recipients;
 
     //Getters and Setters
     public int getId() {
@@ -72,19 +74,19 @@ public class Mail {
         this.attached = attached;
     }
 
-    public UserMail getUserMail() {
-        return userMail;
+    public UserMail getWriter() {
+        return writer;
     }
 
-    public void setUserMail(UserMail userMail) {
-        this.userMail = userMail;
+    public void setWriter(UserMail writer) {
+        this.writer = writer;
     }
 
-    public Set<UserMail> getUserMails() {
-        return userMails;
+    public Set<UserMail> getRecipients() {
+        return recipients;
     }
 
-    public void setUserMails(Set<UserMail> userMails) {
-        this.userMails = userMails;
+    public void setRecipients(Set<UserMail> recipients) {
+        this.recipients = recipients;
     }
 }

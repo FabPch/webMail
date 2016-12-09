@@ -8,7 +8,7 @@
                 <th>Content <span class="glyphicon glyphicon-sort-by-alphabet" ng-click="order('lastName')"></span></th>
             </tr>
 
-            <tr ng-repeat="m in mails | filter : fav | orderBy: propMail"> <!--ng-mouseover="display(x.id)" ng-mouseout="hide()"-->
+            <tr ng-repeat="m in sentmails | filter : fav | orderBy: propMail"> <!--ng-mouseover="display(x.id)" ng-mouseout="hide()"-->
                 <td ng-click="display(m.id)">{{m.title}}</td>
                 <td ng-click="display(m.id)">{{m.content}}</td>
             </tr>

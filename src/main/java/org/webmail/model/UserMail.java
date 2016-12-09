@@ -1,6 +1,7 @@
 package org.webmail.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Set;
  * Created by formation on 06/12/2016.
  */
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "usermail")
 public class UserMail {
 
@@ -26,13 +28,13 @@ public class UserMail {
     @Column
     private boolean connected;
 
-    @ManyToMany(mappedBy = "userMail")
-    @JsonIgnore
-    private Set<Mail> mails;
-
-    @OneToMany(mappedBy = "userMails")
+    @ManyToMany(mappedBy = "recipients")
     @JsonIgnore
     private Set<Mail> recMails;
+
+    @OneToMany(mappedBy = "writer")
+    @JsonIgnore
+    private Set<Mail> sendMails;
 
     //Getters and Setters
 
@@ -60,12 +62,12 @@ public class UserMail {
         this.firstName = firstName;
     }
 
-    public Set<Mail> getMails() {
-        return mails;
+    public Set<Mail> getSendMails() {
+        return sendMails;
     }
 
-    public void setMails(Set<Mail> mails) {
-        this.mails = mails;
+    public void setSendMails(Set<Mail> sendMails) {
+        this.sendMails = sendMails;
     }
 
     public boolean isConnected() {

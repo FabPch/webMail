@@ -32,18 +32,55 @@
         <div ng-if="connected">
             <div class="row">
             <a href="#recep">Reception <span class="badge" ng-bind="mails.length"></span></a>
-                <a href="#sent">Sent</a>
+                <a href="#outbox">Outbox</a>
                 <a href="#add">Inscription</a>
             <a href="#write">Send</a>
             <button class='btn btn-danger' ng-click='userlogout()'>Log Out!</button>
             </div>
             <div class="row">
-                <ul ng-repeat="u in usermails">
-                    <li>{{}}</li>
+                <ul ng-repeat="u in userconnected">
+                    <li>{{u.firstName}}</li>
                 </ul>
             </div>
         <div ng-view></div>
         </div>
+
+        <!--Modal example-->
+
+        <!--<div ng-if="!connected">-->
+            <!--<div class="bd-example">-->
+                <!--<button type="button" class="btn btn-primary modal-btn" data-toggle="modal" data-target="#exampleModal" ng-click="value='Log In'" data-whatever="Log In" data-func="userlog(userToVer)">Log In</button>-->
+                <!--<button type="button" class="btn btn-primary modal-btn" data-toggle="modal" data-target="#exampleModal" ng-click="value='Subscribe'" data-whatever="Subscribe" data-func="userAdd(userToVer)">Subscribe</button>-->
+                <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+                    <!--<div class="modal-dialog" role="document">-->
+                        <!--<div class="modal-content">-->
+                            <!--<div class="modal-header">-->
+                                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                                    <!--<span aria-hidden="true">&times;</span>-->
+                                <!--</button>-->
+                                <!--<h4 class="modal-title" id="exampleModalLabel">{{value}}</h4>-->
+                            <!--</div>-->
+                            <!--<div class="modal-body">-->
+                                <!--<form>-->
+                                    <!--<div class="form-group">-->
+                                        <!--<label for="recipient-name" class="form-control-label">Email :</label>-->
+                                        <!--<input type="text" class="form-control" id="recipient-name" ng-model="userToVer.firstName">-->
+                                    <!--</div>-->
+                                    <!--<div class="form-group">-->
+                                        <!--<label for="recipient-lastname" class="form-control-label">Password :</label>-->
+                                        <!--<input type="text" class="form-control" id="recipient-lastname" ng-model="userToVer.lastName">-->
+                                    <!--</div>-->
+                                <!--</form>-->
+                            <!--</div>-->
+                            <!--<div class="modal-footer">-->
+                                <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                                <!--<button type="button" class="btn btn-primary" id="but-config" data-dismiss="modal" ng-click="userlog(userToVer">{{value}}</button>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div ng-if="!connected">
             <div class="row">
@@ -59,7 +96,8 @@
                             </form>
                         </div>
                     </div>
-                    <button class='btn btn-success' ng-click='userlog(userToVer)'>Send !</button>
+                    <button class='btn btn-success' ng-click='userlog(userToVer)'>Log In!</button>
+                    <button class='btn btn-success' ng-click='userlog(userToVer)'>Suscribe !</button>
                 </div>
             </div>
         </div>

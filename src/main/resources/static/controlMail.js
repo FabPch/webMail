@@ -17,8 +17,8 @@ app.config(function ($routeProvider) {
         .when('/write', {
             templateUrl : 'writeMail.html'
         })
-        .when('/sent', {
-            templateUrl : 'sent.html'
+        .when('/outbox', {
+            templateUrl : 'outbox.html'
         });
 });
 
@@ -52,12 +52,14 @@ var init = function(scope, http) {
         url += -1;
 
     http.get(url).then(function(resp) {
-        scope.mails = resp.data;
+        scope.mails = resp.data[0];
+        scope.sentmails = resp.data[1];
+        scope.userconnected = resp.data[2];
         if (!scope.connected)
             scope.usermail = {};
-        console.log(scope.connected);
+        console.log(scope.userconnected);
     })
-}
+};
     //Remove
 var deleteMail = function (id, http, scope) {
 
@@ -65,8 +67,8 @@ var deleteMail = function (id, http, scope) {
 
     http.delete(url).then(function() {
         init(scope, http);
-    })
-}
+    });
+};
 
     //Save Mail
 var saveMail = function (http, scope) {
@@ -78,7 +80,7 @@ var saveMail = function (http, scope) {
     http.post(url, scope.mailToSave).then(function() {
         init(scope, http);
     })
-}
+};
 
     //Save User
 var saveUser = function (http, scope) {
@@ -92,9 +94,9 @@ var saveUser = function (http, scope) {
         console.log('To save! hey!');
         init(scope, http);
     })
-}
+};
 
-    //Display
+    //Display Inbox
 var getMail = function (id, http, scope) {
 
     var url = 'http://172.28.11.18:8080/mail/' + id;
@@ -103,7 +105,7 @@ var getMail = function (id, http, scope) {
         scope.mail = resp.data;
         scope.showok = true;
     })
-}
+};
 
     //Log In
 var userVerify = function (http, scope) {
@@ -119,7 +121,20 @@ var userVerify = function (http, scope) {
         // console.log(scope.usermail.id);
         init(scope, http);
     })
-}
+};
+
+    //Log Out
+var userLogout = function (http, scope) {
+
+    var url = 'http://172.28.11.18:8080/mail/logout';
+    console.log('chemin fonction logout :')
+
+    http.post(url, scope.usermail).then(function(resp) {
+        console.log('chemin fonction requete :')
+        scope.connected = false;
+        init(scope, http);
+    })
+};
 
 //On définit le controller
 app.controller("controlMail", function ($scope, $http) {
@@ -140,12 +155,12 @@ app.controller("controlMail", function ($scope, $http) {
         $scope.mailToSave.userMails = [rec];
         console.log($scope.mailToSave.userMails);
         saveMail($http, $scope);
-    }
+    };
 
     $scope.saveU = function(usermail) {
         $scope.usermail = usermail;
         saveUser($http, $scope);
-    }
+    };
 
     $scope.userlog = function(usermail) {
         $scope.usermail = usermail;
@@ -153,12 +168,11 @@ app.controller("controlMail", function ($scope, $http) {
         console.log(usermail);
         userVerify($http, $scope);
 
-    }
+    };
 
     $scope.userlogout = function () {
-        $scope.connected = false;
-        init($scope, $http);
-    }
+        userLogout($http, $scope);
+    };
 
     $scope.display = function(id) {
         getMail(id, $http, $scope);
@@ -166,10 +180,10 @@ app.controller("controlMail", function ($scope, $http) {
 
     $scope.hide = function() {
         $scope.showok = false;
-    }
+    };
 
     $scope.order = function(prop) {
         $scope.propMail = prop;
-    }
+    };
 
-})
+});
