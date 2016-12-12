@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.webmail.model.Mail;
 import org.webmail.model.UserMail;
-import org.webmail.repository.UserRepository;
 import org.webmail.service.MailService;
 import org.webmail.service.UserService;
 
@@ -16,8 +15,8 @@ import java.util.List;
  * Created by formation on 06/12/2016.
  */
 @RequestMapping("/mail/")
-@org.springframework.web.bind.annotation.RestController
-public class RestController {
+@RestController
+public class MailRestController {
 
     private boolean connected;
 

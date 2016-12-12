@@ -13,6 +13,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.min.js"></script>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -29,28 +30,38 @@
 <body>
 <div ng-app="webmail" ng-controller="controlMail">
     <div class="container">
-        <div ng-if="connected">
-            <div class="row">
-            <a href="#recep">Reception <span class="badge" ng-bind="mails.length"></span></a>
-                <a href="#outbox">Outbox</a>
-                <a href="#add">Inscription</a>
-            <a href="#write">Send</a>
-            <button class='btn btn-danger' ng-click='userlogout()'>Log Out!</button>
-            </div>
-            <div class="row">
-                <ul ng-repeat="u in userconnected">
-                    <li>{{u.firstName}}</li>
-                </ul>
-            </div>
-        <div ng-view></div>
-        </div>
+        <!--<div ng-if="connected">-->
+
+            <!--<div class="row">-->
+                <!--<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">-->
+                    <!--<div class="btn-group" role="group" aria-label="First group">-->
+                        <!--<a class="btn btn-secondary btn-success" ui-sref="recep">Reception <span class="badge" ng-bind="mails.length"></span></a>-->
+                        <!--<a type="button" class="btn btn-secondary btn-primary" ui-sref="outbox">Outbox</a>-->
+                        <!--<a type="button" class="btn btn-secondary btn-warning" ui-sref="add">Inscription</a>-->
+                        <!--<a type="button" class="btn btn-secondary btn-info" ui-sref="write">Send</a>-->
+                        <!--<button class='btn btn-danger' ng-click='userlogout()'>Log Out!</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div><br>-->
+
+        <a type="button" class="btn btn-secondary btn-primary" ui-sref="login" ui-sref-active="active">Login</a>
+        <a type="button" class="btn btn-secondary btn-warning" ui-sref="add" ui-sref-active="active">Inscription</a>
+            <div ui-view></div>
+            <!--<div ng-view></div>-->
+        <!--</div>-->
+
+        <!--<div class="row">-->
+            <!--<ul ng-repeat="u in userconnected">-->
+                <!--<li>{{u.firstName}}</li>-->
+            <!--</ul>-->
+        <!--</div>-->
 
         <!--Modal example-->
 
         <!--<div ng-if="!connected">-->
             <!--<div class="bd-example">-->
-                <!--<button type="button" class="btn btn-primary modal-btn" data-toggle="modal" data-target="#exampleModal" ng-click="value='Log In'" data-whatever="Log In" data-func="userlog(userToVer)">Log In</button>-->
-                <!--<button type="button" class="btn btn-primary modal-btn" data-toggle="modal" data-target="#exampleModal" ng-click="value='Subscribe'" data-whatever="Subscribe" data-func="userAdd(userToVer)">Subscribe</button>-->
+                <!--<button type="button" class="btn btn-primary modal-btn" data-toggle="modal" data-target="#exampleModal" ng-click="value='Log In'" data-whatever="Log In" >Log In</button>-->
+                <!--<button type="button" class="btn btn-primary modal-btn" data-toggle="modal" data-target="#exampleModal" ng-click="value='Subscribe'" data-whatever="Subscribe" >Subscribe</button>-->
                 <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
                     <!--<div class="modal-dialog" role="document">-->
                         <!--<div class="modal-content">-->
@@ -74,7 +85,7 @@
                             <!--</div>-->
                             <!--<div class="modal-footer">-->
                                 <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-                                <!--<button type="button" class="btn btn-primary" id="but-config" data-dismiss="modal" ng-click="userlog(userToVer">{{value}}</button>-->
+                                <!--<button type="button" class="btn btn-primary" id="but-config" data-dismiss="modal" ng-click="userlog(userToVer)">{{value}}</button>-->
                             <!--</div>-->
                         <!--</div>-->
                     <!--</div>-->
@@ -82,30 +93,32 @@
             <!--</div>-->
         <!--</div>-->
 
-        <div ng-if="!connected">
-            <div class="row">
-                <div class="col col-md-6 col-md-offset-3">
-                    <div class='panel panel-success'>
-                        <div class='panel-heading'>Log In !</div>
-                        <div class='panel-body'>
-                            <form>
-                                <label for="title" class="sr-only"> Email </label><br>
-                                <input type="text" id="title" class="form-control" placeholder="Title" name="title" ng-model="userToVer.firstName" value="" required>
-                                <label for="content" class="sr-only"> Password </label><br>
-                                <input type="text" id="content" class="form-control" placeholder="Content" name="content" value="" ng-model="userToVer.lastName" required>
-                            </form>
-                        </div>
-                    </div>
-                    <button class='btn btn-success' ng-click='userlog(userToVer)'>Log In!</button>
-                    <button class='btn btn-success' ng-click='userlog(userToVer)'>Suscribe !</button>
-                </div>
-            </div>
-        </div>
+        <!--<div ng-if="!connected">-->
+            <!--<div class="row">-->
+                <!--<div class="col col-md-6 col-md-offset-3">-->
+                    <!--<div class='panel panel-success'>-->
+                        <!--<div class='panel-heading'>Log In !</div>-->
+                        <!--<div class='panel-body'>-->
+                            <!--<form>-->
+                                <!--<label for="title" class="sr-only"> Email </label><br>-->
+                                <!--<input type="text" id="title" class="form-control" placeholder="Title" name="title" ng-model="userToVer.firstName" value="" required>-->
+                                <!--<label for="content" class="sr-only"> Password </label><br>-->
+                                <!--<input type="text" id="content" class="form-control" placeholder="Content" name="content" value="" ng-model="userToVer.lastName" required>-->
+                            <!--</form>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<button class='btn btn-success' ng-click='userlog(userToVer)'>Log In!</button>-->
+                    <!--<button class='btn btn-success' ng-click='userlog(userToVer)'>Suscribe !</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
 
     </div>
 
 </div>
 <script src="controlMail.js"></script>
+<script src="function.js"></script>
+<script src="uiView.js"></script>
 </body>
 </html>

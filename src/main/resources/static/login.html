@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col col-md-6 col-md-offset-3">
+        <div class='panel panel-success'>
+            <div class='panel-heading'>Log In !</div>
+            <div class='panel-body'>
+                <form>
+                    <label for="title" class="sr-only"> Email </label><br>
+                    <input type="text" id="title" class="form-control" placeholder="Title" name="title" ng-model="userToVer.firstName" value="" required>
+                    <label for="content" class="sr-only"> Password </label><br>
+                    <input type="text" id="content" class="form-control" placeholder="Content" name="content" value="" ng-model="userToVer.lastName" required>
+                </form>
+            </div>
+        </div>
+        <button class='btn btn-success' ng-click='userlog(userToVer)'>Log In!</button>
+        <button class='btn btn-success' ng-click='userlog(userToVer)'>Suscribe !</button>
+    </div>
+</div>

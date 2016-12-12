@@ -2,6 +2,7 @@ package org.webmail.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.webmail.model.Mail;
 import org.webmail.model.UserMail;
 import org.webmail.repository.MailRepository;
@@ -10,7 +11,7 @@ import org.webmail.service.MailService;
 /**
  * Created by formation on 06/12/2016.
  */
-@Component
+@Service
 public class MailServiceImpl implements MailService {
 
     @Autowired
